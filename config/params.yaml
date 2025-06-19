@@ -1,0 +1,9 @@
+checkpoint_path: "./checkpoints/sunny2cloudy/latest_net_G_A.pth" # 重みファイル名
+output_suffix: "_translated" # 出力ディレクトリ
+image_size: [200, 88] # 画像サイズ
+crop_size: 256 # 中心クロップサイズ
+input_nc: 3 # 入力画像チャネル（1でグレースケール, 3でRGB）
+output_nc: 3 # 出力画像チャネル
+n_blocks: 9
+use_dropout: false
+device: "cuda"  # "cuda" or "cpu"
