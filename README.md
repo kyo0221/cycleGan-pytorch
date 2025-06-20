@@ -8,11 +8,23 @@ CycleGANは、対応するペア画像がない状況で、あるドメインの
 
 ## サンプル結果
 
-### 変換前（晴天）→ 変換後（曇天）
+### 🌞 晴れ → 曇り変換 (Sunny to Cloudy)
 
-| 変換前（Sunny） | 変換後（Cloudy） |
-|:---:|:---:|
-| ![Before](samples/before.png) | ![After](samples/after.png) |
+| サンプル1 | サンプル2 | サンプル3 |
+|:---:|:---:|:---:|
+| **変換前** | **変換前** | **変換前** |
+| ![Sunny1](samples/sunny2cloudy/sunny_01.png) | ![Sunny2](samples/sunny2cloudy/sunny_02.png) | ![Sunny3](samples/sunny2cloudy/sunny_03.png) |
+| **変換後** | **変換後** | **変換後** |
+| ![Cloudy1](samples/sunny2cloudy/cloudy_01.png) | ![Cloudy2](samples/sunny2cloudy/cloudy_02.png) | ![Cloudy3](samples/sunny2cloudy/cloudy_03.png) |
+
+### ☁️ 曇り → 晴れ変換 (Cloudy to Sunny)
+
+| サンプル1 | サンプル2 | サンプル3 |
+|:---:|:---:|:---:|
+| **変換前** | **変換前** | **変換前** |
+| ![Cloudy1](samples/cloudy2sunny/cloudy_01.png) | ![Cloudy2](samples/cloudy2sunny/cloudy_02.png) | ![Cloudy3](samples/cloudy2sunny/cloudy_03.png) |
+| **変換後** | **変換後** | **変換後** |
+| ![Sunny1](samples/cloudy2sunny/sunny_01.png) | ![Sunny2](samples/cloudy2sunny/sunny_02.png) | ![Sunny3](samples/cloudy2sunny/sunny_03.png) |
 
 
 ## プロジェクト構成
@@ -30,6 +42,9 @@ cycleGan-pytorch/
 │   ├── loss.py          # 損失関数
 │   ├── image_pool.py    # 画像プール
 │   └── visualizer.py    # 可視化・ログ
+├── samples/              # サンプル画像
+│   ├── sunny2cloudy/     # 晴れ→曇り変換サンプル
+│   └── cloudy2sunny/     # 曇り→晴れ変換サンプル
 ├── checkpoints/         # 学習済みモデル
 ├── datasets/            # データセット
 ├── logs/               # 訓練ログ
@@ -64,6 +79,7 @@ python3 cycle_gan.py test_images
 
 # 結果はtest_images_translatedディレクトリに保存される
 ```
+注意：画像フォルダ内のファイル名は00001.png, 00002.png, ...と続くことが前提となっています
 
 #### 入力・出力
 - **入力**: PNG画像が含まれるディレクトリ
@@ -77,6 +93,7 @@ python3 cycle_gan.py test_images
 python3 train.py <ドメインA画像ディレクトリ> <ドメインB画像ディレクトリ>
 ```
 
+注意：画像フォルダ内のファイル名は00001.png, 00002.png, ...と続くことが前提となっています
 #### 例
 ```bash
 # sunny画像とcloudy画像でモデルを訓練
