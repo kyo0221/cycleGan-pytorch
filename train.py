@@ -10,7 +10,7 @@ from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from models.networks import define_G, define_D, get_scheduler
 from util.image_pool import ImagePool
-from util.visualizer import Visualizer
+from util.visualizer import SimpleVisualizer
 from util.loss import GANLoss
 
 def load_config(config_path="config/train.yaml"):
@@ -21,11 +21,12 @@ def prepare_dataset(image_dir_A, image_dir_B):
     dataset_root = Path("datasets/custom")
     shutil.rmtree(dataset_root, ignore_errors=True)
 
-    (dataset_root / "trainA").mkdir(parents=True)
-    (dataset_root / "trainB").mkdir(parents=True)
+    # Create class folder structure for ImageFolder
+    (dataset_root / "trainA" / "images").mkdir(parents=True)
+    (dataset_root / "trainB" / "images").mkdir(parents=True)
 
-    for src, dst in [(image_dir_A, dataset_root / "trainA"),
-                     (image_dir_B, dataset_root / "trainB")]:
+    for src, dst in [(image_dir_A, dataset_root / "trainA" / "images"),
+                     (image_dir_B, dataset_root / "trainB" / "images")]:
         for f in Path(src).glob("*.png"):
             shutil.copy(f, dst / f.name)
 
@@ -52,6 +53,8 @@ def create_dataloader(path, image_size, batch_size=1):
     ]
 
     transform = transforms.Compose(transform_list)
+    
+    # ImageFolder expects class folders, which should already be created by prepare_dataset
     dataset = ImageFolder(path, transform=transform)
     return DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
@@ -91,6 +94,8 @@ def main(image_dir_A, image_dir_B):
 
     fake_A_pool = ImagePool(50)
     fake_B_pool = ImagePool(50)
+    
+    visualizer = SimpleVisualizer(f"logs/{model_name}")
 
     for epoch in range(epochs):
         for i, ((real_A, _), (real_B, _)) in enumerate(dataloader):
@@ -134,16 +139,32 @@ def main(image_dir_A, image_dir_B):
             loss_D.backward()
             optimizer_D.step()
 
-            print(f"[Epoch {epoch+1}/{epochs}] Step {i}: G_loss: {loss_G.item():.3f} D_loss: {loss_D.item():.3f}")
+            if i % 10 == 0:  # Log every 10 steps
+                losses = {
+                    'G_loss': loss_G.item(),
+                    'D_loss': loss_D.item(),
+                    'G_A': loss_G_A.item(),
+                    'G_B': loss_G_B.item(),
+                    'Cycle_A': loss_cycle_A.item(),
+                    'Cycle_B': loss_cycle_B.item(),
+                    'Idt_A': loss_idt_A.item(),
+                    'Idt_B': loss_idt_B.item(),
+                    'D_A': loss_D_A.item(),
+                    'D_B': loss_D_B.item()
+                }
+                visualizer.print_current_losses(epoch, i, losses)
 
         lr_scheduler_G.step()
         lr_scheduler_D.step()
 
-        save_dir = Path(f"checkpoints/{model_name}")
-        save_dir.mkdir(parents=True, exist_ok=True)
-        torch.save(netG_A.state_dict(), save_dir / f"{epoch:03d}_net_G_A.pth")
-        torch.save(netG_B.state_dict(), save_dir / f"{epoch:03d}_net_G_B.pth")
-        print(f"✅ saved model at epoch {epoch+1}")
+    # Save final models only after all epochs are completed
+    save_dir = Path(f"checkpoints/{model_name}")
+    save_dir.mkdir(parents=True, exist_ok=True)
+    torch.save(netG_A.state_dict(), save_dir / "latest_net_G_A.pth")
+    torch.save(netG_B.state_dict(), save_dir / "latest_net_G_B.pth")
+    torch.save(netD_A.state_dict(), save_dir / "latest_net_D_A.pth")
+    torch.save(netD_B.state_dict(), save_dir / "latest_net_D_B.pth")
+    print(f"✅ Training completed. Final models saved to {save_dir}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
