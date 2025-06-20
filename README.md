@@ -48,6 +48,7 @@ cycleGan-pytorch/
 ├── checkpoints/         # 学習済みモデル
 ├── datasets/            # データセット
 ├── logs/               # 訓練ログ
+├── LICENSE              # ライセンスファイル
 └── README.md
 ```
 
@@ -130,3 +131,45 @@ name: "sunny2cloudy"          # モデル名
 - `latest_net_G_B.pth`: B→A（曇→晴）ジェネレータ  
 - `latest_net_D_A.pth`: ドメインA識別器
 - `latest_net_D_B.pth`: ドメインB識別器
+
+## ライセンス
+
+このプロジェクトは [pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) リポジトリからコードを引用・改変しており、**BSDライセンス**の下で公開されています。
+
+### 著作権情報
+
+以下の著作権表示とライセンス条項が適用されます：
+
+- **この実装**: Copyright (c) 2024, your_name
+- **CycleGAN**: Copyright (c) 2017, Jun-Yan Zhu and Taesung Park
+- **pix2pix**: Copyright (c) 2016, Phillip Isola and Jun-Yan Zhu
+- **DCGAN**: Copyright (c) 2015, Facebook, Inc.
+
+詳細なライセンス条項については [LICENSE](LICENSE) ファイルをご確認ください。
+
+### 使用条件
+
+- ソースコードの再配布時：著作権表示とライセンス条項の保持が必要
+- バイナリ形式での再配布時：ドキュメントに著作権表示とライセンス条項の記載が必要
+- 免責条項：本ソフトウェアは「現状のまま」提供され、一切の保証はありません
+
+### 学術利用
+
+学術研究での使用時は、以下の論文を引用してください：
+
+### 引用文献
+```bibtex
+@inproceedings{CycleGAN2017,
+  title={Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks},
+  author={Zhu, Jun-Yan and Park, Taesung and Isola, Phillip and Efros, Alexei A},
+  booktitle={Computer Vision (ICCV), 2017 IEEE International Conference on},
+  year={2017}
+}
+
+
+@inproceedings{isola2017image,
+  title={Image-to-Image Translation with Conditional Adversarial Networks},
+  author={Isola, Phillip and Zhu, Jun-Yan and Zhou, Tinghui and Efros, Alexei A},
+  booktitle={Computer Vision and Pattern Recognition (CVPR), 2017 IEEE Conference on},
+  year={2017}
+}
