@@ -136,26 +136,7 @@ name: "sunny2cloudy"          # モデル名
 
 このプロジェクトは [pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) リポジトリからコードを引用・改変しており、**BSDライセンス**の下で公開されています。
 
-### 著作権情報
-
-以下の著作権表示とライセンス条項が適用されます：
-
-- **この実装**: Copyright (c) 2024, your_name
-- **CycleGAN**: Copyright (c) 2017, Jun-Yan Zhu and Taesung Park
-- **pix2pix**: Copyright (c) 2016, Phillip Isola and Jun-Yan Zhu
-- **DCGAN**: Copyright (c) 2015, Facebook, Inc.
-
 詳細なライセンス条項については [LICENSE](LICENSE) ファイルをご確認ください。
-
-### 使用条件
-
-- ソースコードの再配布時：著作権表示とライセンス条項の保持が必要
-- バイナリ形式での再配布時：ドキュメントに著作権表示とライセンス条項の記載が必要
-- 免責条項：本ソフトウェアは「現状のまま」提供され、一切の保証はありません
-
-### 学術利用
-
-学術研究での使用時は、以下の論文を引用してください：
 
 ### 引用文献
 ```bibtex
